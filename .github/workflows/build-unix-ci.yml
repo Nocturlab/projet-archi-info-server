@@ -11,9 +11,9 @@ jobs:
     - name: Checkout code from Git repository
       uses: actions/checkout@v1
     - name: Building project
-      run: make
+      run: ./gradlew build -x test
     - name: Running tests
-      run: make test
+      run: ./gradlew test
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
