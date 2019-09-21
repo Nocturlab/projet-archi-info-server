@@ -1,0 +1,30 @@
+name: Build Unix
+on: [push]
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+    steps:
+    - name: Checkout code from Git repository
+      uses: actions/checkout@v1
+    - name: Building project
+      run: ./gradlew build -x test
+    - name: Running tests
+      run: ./gradlew test
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: release-${{ matrix.os }}
+        path: ./build/
+    - name: Publish to Docker
+      uses: elgohr/Publish-Docker-Github-Action@1.12
+      if: matrix.os == 'ubuntu-latest'
+      with:
+        name: nocturlab/archi-data
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        snapshot: true
+        cache: true
