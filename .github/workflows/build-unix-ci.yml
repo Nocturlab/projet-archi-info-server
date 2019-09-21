@@ -26,6 +26,7 @@ jobs:
       with:
         args: ./build/libs/*.war
     - name: Publish to Docker
+      if:  matrix.os == 'ubuntu-latest'
       uses: elgohr/Publish-Docker-Github-Action@1.12
       if: matrix.os == 'ubuntu-latest'
       with:
