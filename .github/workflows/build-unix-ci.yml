@@ -29,7 +29,5 @@ jobs:
         snapshot: true
         cache: true
     - name: Publish on prod server
-      if: 
-      - matrix.os == 'ubuntu-latest'
-      - github.ref == 'refs/heads/master'
+      if:  matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/master'
       run: echo ${{ secrets.SSH_PASSWORD }} | ssh ${{ secrets.SSH_HOST }} -c "docker stack rm archi-data && docker pull nocturlab/archi-data && docker stack deploy -c ${{ secrets.STACK_DIR }} archi-data"
