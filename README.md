@@ -1,4 +1,6 @@
 # README
+[![Actions Status](https://github.com/Nocturlab/projet-archi-info-server/workflows/Build%20Unix/badge.svg)](https://github.com/Nocturlab/projet-archi-info-server/actions)
+[![CodeFactor](https://www.codefactor.io/repository/github/nocturlab/projet-archi-info-server/badge)](https://www.codefactor.io/repository/github/nocturlab/projet-archi-info-server)
 
 \# projet-archi-info
 
