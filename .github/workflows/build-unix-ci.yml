@@ -30,4 +30,13 @@ jobs:
         cache: true
     - name: Publish on production server
       if:  matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/master'
-      run: echo "${{ secrets.SSH_PASSWORD }}" | ssh ${{ secrets.SSH_HOST }} -o "StrictHostKeyChecking=no" -C "docker stack rm archi-data && docker pull nocturlab/archi-data && docker stack deploy -c ${{ secrets.STACK_DIR }} archi-data"
+      uses: appleboy/ssh-action@master
+      env:
+        HOST: ${{ secrets.SSH_HOST }}
+        KEY: ${{ secrets.SSH_KEY }}
+      with:
+        args: |
+          --user ${{ secrets.SSH_USER }}
+          --script "'docker stack rm archi-data'"
+          --script "'docker pull nocturlab/archi-data'"
+          --script "'docker stack deploy -c ${{ secrets.STACK_DIR }} archi-data'"
