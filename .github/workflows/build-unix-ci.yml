@@ -19,6 +19,12 @@ jobs:
       with:
         name: release-${{ matrix.os }}
         path: ./build/libs/
+    - name: Send to Discord
+      uses: sinshutu/upload-to-discord@v1.0.0
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: ./build/libs/*.war
     - name: Publish to Docker
       uses: elgohr/Publish-Docker-Github-Action@1.12
       if: matrix.os == 'ubuntu-latest'
