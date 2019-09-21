@@ -18,7 +18,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: release-${{ matrix.os }}
-        path: ./build/
+        path: ./build/libs/
     - name: Publish to Docker
       uses: elgohr/Publish-Docker-Github-Action@1.12
       if: matrix.os == 'ubuntu-latest'
@@ -28,6 +28,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         snapshot: true
         cache: true
-    - name: Publish on prod server
-      if: github.ref == 'refs/heads/master'
-      run: echo ${{ secret.SSH_PASSWORD }} | ssh ${{ secret.SSH_HOST }} -c "docker stack rm archi-data && docker pull nocturlab/archi-data && docker stack deploy -c ${{ secret.STACK_DIR }} archi-data"
+    - name: Publish on production server
+      if:  matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/master'
+      run: echo ${{ secrets.SSH_PASSWORD }} | ssh ${{ secrets.SSH_HOST }} -c "docker stack rm archi-data && docker pull nocturlab/archi-data && docker stack deploy -c ${{ secrets.STACK_DIR }} archi-data"
