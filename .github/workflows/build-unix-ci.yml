@@ -28,7 +28,6 @@ jobs:
     - name: Publish to Docker
       if:  matrix.os == 'ubuntu-latest'
       uses: elgohr/Publish-Docker-Github-Action@1.12
-      if: matrix.os == 'ubuntu-latest'
       with:
         name: nocturlab/archi-data
         username: ${{ secrets.DOCKER_USERNAME }}
