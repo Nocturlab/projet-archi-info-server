@@ -28,3 +28,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         snapshot: true
         cache: true
+    - name: Publish on prod server
+      if: github.ref == 'refs/heads/master'
+      run: echo ${{ secrets.SSH_PASSWORD }} | ssh ${{ secrets.SSH_HOST }} -c "docker stack rm archi-data && docker pull nocturlab/archi-data && docker stack deploy -c ${{ secrets.STACK_DIR }} archi-data"
