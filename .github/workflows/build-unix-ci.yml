@@ -21,7 +21,7 @@ jobs:
         path: ./build/libs/
     - name: Send to Discord
       if:  matrix.os == 'ubuntu-latest'
-      uses: Nocturlab/upload-to-discord@v1.0.0
+      uses: Nocturlab/upload-to-discord@master
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
