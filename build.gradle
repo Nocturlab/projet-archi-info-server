@@ -13,7 +13,7 @@ plugins {
 apply plugin: 'war'
 apply plugin: 'io.spring.dependency-management'
 
-version '0.0.1'
+version '0.0.2'
 
 bootJar {
     mainClassName = 'fr.nocturlab.Application'
