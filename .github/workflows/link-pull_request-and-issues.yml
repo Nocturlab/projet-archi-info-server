@@ -12,4 +12,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         args: 
-        - '{"branch":"issue-"}'
+        - {"branch":"issue-"}
