@@ -11,4 +11,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        args: '{"branch":"issue-"}'
+        args: 
+        - '{"branch":"issue-"}'
