@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Postgres",
+            "request": "launch",
+            "mainClass": "", 
+            "preLaunchTask": "postgres"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Application<ProjetServer>",
+            "request": "launch",
+            "mainClass": "fr.nocturlab.Application",
+            "projectName": "ProjetServer"
+        }
+    ]
+}
