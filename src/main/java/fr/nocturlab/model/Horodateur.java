@@ -12,19 +12,6 @@ import javax.persistence.Entity;
 @Setter
 public class Horodateur {
 
-    public Horodateur() {}
-/*
-    public Horodateur(int id, int numero, String voieLibelle, String type, String alimentation, String zone, double x, double y) {
-        this.id = id;
-        this.numero = numero;
-        this.voieLibelle = voieLibelle;
-        this.type = type;
-        this.alimentation = alimentation;
-        this.zone = zone;
-        this.x = x;
-        this.y = y;
-    }*/
-
     @Id
     @JsonProperty("hor_id")
     private Integer id;
