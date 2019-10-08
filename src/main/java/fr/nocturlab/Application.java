@@ -14,9 +14,10 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-
+@EnableScheduling
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws Exception {
