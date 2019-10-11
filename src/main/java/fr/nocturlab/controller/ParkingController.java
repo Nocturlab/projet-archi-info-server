@@ -1,6 +1,5 @@
 package fr.nocturlab.controller;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nocturlab.model.Parking;
 import fr.nocturlab.repository.ParkingRepository;
@@ -10,17 +9,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/parkings")
 public class ParkingController {
 
     private static final String url_parking = "https://opendata.larochelle.fr/webservice/?service=getData&key=WrY71ysb6kBrpTv7&db=stationnement&table=disponibilite_parking&format=json";
@@ -31,11 +31,10 @@ public class ParkingController {
     private RestTemplate restTemplate;
 
     public ParkingController() {
-//        this.parkingRepository = parkingRepository;
         this.restTemplate = new RestTemplate();
     }
 
-    @RequestMapping("/parkings/findAll")
+    @GetMapping("/findAll")
     public Iterable<Parking> findAll() {
         return parkingRepository.findAll();
     }
@@ -66,6 +65,8 @@ public class ParkingController {
         try {
             String data = objectMapper.readTree(response.getBody()).at("/opendata/answer/data").toString();
 
+            System.out.println(data);
+
             List<Parking> parkings = Arrays.asList(objectMapper.readValue(data, Parking[].class));
 
             parkingRepository.saveAll(parkings);
@@ -73,6 +74,5 @@ public class ParkingController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

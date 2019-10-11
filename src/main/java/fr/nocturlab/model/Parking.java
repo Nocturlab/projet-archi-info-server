@@ -4,21 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "parking_")
+@Entity(name = "parking")
 @Getter
 @Setter
+@JsonIgnoreProperties("dp_id")
 public class Parking {
 
     @Id
-    @JsonProperty("dp_id")
-    private Integer id;
-
     @JsonProperty("dp_parc_id")
-    private Integer parcId;
+    private Integer id;
 
     @JsonProperty("dp_libelle")
     private String libelle;
