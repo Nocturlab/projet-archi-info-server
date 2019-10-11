@@ -38,4 +38,12 @@ public class Parking {
     @JsonProperty("dp_place_disponible")
     private Integer placesDisponibles;
 
+    public Double getLat(){
+        return this.y;
+    }
+
+    public Double getLng(){
+        return this.x;
+    }
+
 }
