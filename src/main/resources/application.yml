@@ -16,7 +16,6 @@ spring:
     url: jdbc:postgresql://${PG_HOST:localhost}:${PG_PORT:5432}/${PG_DATABASE:postgres}
     username: ${PG_LOGIN:postgres}
     password: ${PG_PASS:postgres}
-    schema: ${PG_SCHEMA:public}
   # JPA / HIBERNATE
   jpa:
     show-sql: true
