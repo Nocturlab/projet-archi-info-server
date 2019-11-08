@@ -8,10 +8,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 
 import fr.nocturlab.model.Parking;
+import java.util.List;
 
 @RepositoryRestResource
 public interface ParkingRepository extends JpaRepository<Parking, Integer> {
 
-    Parking findByPlacesDisponiblesIsGreaterThan(Integer x);
-    
+    List<Parking> findByPlacesDisponiblesIsGreaterThan(Integer x);
+
 }
