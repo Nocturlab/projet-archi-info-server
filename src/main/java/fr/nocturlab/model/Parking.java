@@ -13,6 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties("dp_id")
+/**
+ * Parking en temps réel
+ */
 public class Parking {
 
     @Id
@@ -29,10 +32,10 @@ public class Parking {
     private Integer nombresPlaces;
 
     @JsonProperty("dp_x")
-    private Double y;
+    private Double x;
 
     @JsonProperty("dp_y")
-    private Double x;
+    private Double y;
 
     @JsonProperty("dp_place_disponible")
     private Integer placesDisponibles;

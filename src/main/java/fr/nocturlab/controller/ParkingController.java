@@ -2,6 +2,7 @@ package fr.nocturlab.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nocturlab.model.Parking;
+import fr.nocturlab.model.Stationnement;
 import fr.nocturlab.repository.ParkingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -27,10 +28,13 @@ public class ParkingController {
     private static final String url_base_api = "https://opendata.larochelle.fr/";
     private static final String url_parking_temps_reel = url_base_api+"webservice/?service=getData&key=WrY71ysb6kBrpTv7&db=stationnement&table=disponibilite_parking&format=json";
 
-    private  static final String url_parking = url_base_api+"/developpeurs/les-services-web-geographiques-wms-wfs/format=json";
+    private  static final String url_parking = url_base_api+"/webservice/?service=getData&key=WrY71ysb6kBrpTv7&db&db=stationnement&table=sta_parking&format=json";
 
     @Autowired
     private ParkingRepository parkingRepository;
+
+    @Autowired
+    private StationnementRepository stationnementRepository;
 
     private RestTemplate restTemplate;
 
@@ -66,7 +70,7 @@ public class ParkingController {
             //TODO: handle exception
         }
 
-        System.out.println(response.toString());
+//        System.out.println(response.toString());
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -74,9 +78,9 @@ public class ParkingController {
 
             System.out.println(data);
 
-            List<Parking> parkings = Arrays.asList(objectMapper.readValue(data, Parking[].class));
+            List<Stationnement> parkings = Arrays.asList(objectMapper.readValue(data, Stationnement[].class));
 
-            parkingRepository.saveAll(parkings);
+            stationnementRepository.saveAll(parkings);
 
         } catch (IOException e) {
             e.printStackTrace();

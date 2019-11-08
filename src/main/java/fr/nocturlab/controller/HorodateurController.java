@@ -40,13 +40,13 @@ public class HorodateurController {
     @Scheduled(fixedRate = 100000)
     public void update() throws IOException {
         // GET the data from La Rochelle OpenData API
-        ResponseEntity<String> response = restTemplate.getForEntity(URL, String.class);
-
-        // Parse the json
-        String data = mapper.readTree(response.getBody()).at("/opendata/answer/data").toString();
-        List<Horodateur> horodateurs = Arrays.asList(mapper.readValue(data, Horodateur[].class));
-
-        // Save in database
-        repository.saveAll(horodateurs);
+//        ResponseEntity<String> response = restTemplate.getForEntity(URL, String.class);
+//
+//        // Parse the json
+//        String data = mapper.readTree(response.getBody()).at("/opendata/answer/data").toString();
+//        List<Horodateur> horodateurs = Arrays.asList(mapper.readValue(data, Horodateur[].class));
+//
+//        // Save in database
+//        repository.saveAll(horodateurs);
     }
 }
