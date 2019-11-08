@@ -1,6 +1,5 @@
 package fr.nocturlab.controller;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nocturlab.model.Parking;
 import fr.nocturlab.repository.ParkingRepository;
@@ -10,20 +9,25 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/parkings")
 public class ParkingController {
 
-    private static final String url_parking = "https://opendata.larochelle.fr/webservice/?service=getData&key=WrY71ysb6kBrpTv7&db=stationnement&table=disponibilite_parking&format=json";
+    private static final String url_base_api = "https://opendata.larochelle.fr/";
+    private static final String url_parking_temps_reel = url_base_api+"webservice/?service=getData&key=WrY71ysb6kBrpTv7&db=stationnement&table=disponibilite_parking&format=json";
+
+    private  static final String url_parking = url_base_api+"/developpeurs/les-services-web-geographiques-wms-wfs/format=json";
 
     @Autowired
     private ParkingRepository parkingRepository;
@@ -31,14 +35,54 @@ public class ParkingController {
     private RestTemplate restTemplate;
 
     public ParkingController() {
-//        this.parkingRepository = parkingRepository;
         this.restTemplate = new RestTemplate();
     }
 
-    @RequestMapping("/parkings/findAll")
+    @GetMapping("/findAll")
     public Iterable<Parking> findAll() {
         return parkingRepository.findAll();
     }
+
+    @GetMapping("/disponibles")
+    public Iterable<Parking> parkings() {
+        return parkingRepository.findByPlacesDisponiblesIsGreaterThan(0);
+    }
+
+
+    @Scheduled(fixedRate = 1000000000)
+    public void generate() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        HttpEntity<MultiValueMap<String, String>> httpEntity =
+                new HttpEntity<MultiValueMap<String, String>>(null, httpHeaders);
+
+
+        ResponseEntity<String> response = null;
+
+        try {
+
+            response = this.restTemplate.exchange(url_parking, HttpMethod.GET ,httpEntity, String.class);
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+
+        System.out.println(response.toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String data = objectMapper.readTree(response.getBody()).at("/opendata/answer/data").toString();
+
+            System.out.println(data);
+
+            List<Parking> parkings = Arrays.asList(objectMapper.readValue(data, Parking[].class));
+
+            parkingRepository.saveAll(parkings);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Scheduled(fixedRate = 100000)
     /**
@@ -56,7 +100,7 @@ public class ParkingController {
 
         try {
 
-            response = this.restTemplate.exchange(url_parking, HttpMethod.GET ,httpEntity, String.class);
+            response = this.restTemplate.exchange(url_parking_temps_reel, HttpMethod.GET ,httpEntity, String.class);
         } catch (Exception e) {
             //TODO: handle exception
         }
@@ -66,6 +110,8 @@ public class ParkingController {
         try {
             String data = objectMapper.readTree(response.getBody()).at("/opendata/answer/data").toString();
 
+            System.out.println(data);
+
             List<Parking> parkings = Arrays.asList(objectMapper.readValue(data, Parking[].class));
 
             parkingRepository.saveAll(parkings);
@@ -73,6 +119,5 @@ public class ParkingController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
