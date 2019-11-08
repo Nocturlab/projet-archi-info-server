@@ -40,4 +40,59 @@ public class Parking {
     @JsonProperty("dp_place_disponible")
     private Integer placesDisponibles;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getNombresPlaces() {
+        return nombresPlaces;
+    }
+
+    public void setNombresPlaces(Integer nombresPlaces) {
+        this.nombresPlaces = nombresPlaces;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public void setX(Double x) {
+        this.x = x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
+    public void setY(Double y) {
+        this.y = y;
+    }
+
+    public Integer getPlacesDisponibles() {
+        return placesDisponibles;
+    }
+
+    public void setPlacesDisponibles(Integer placesDisponibles) {
+        this.placesDisponibles = placesDisponibles;
+    }
 }

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nocturlab.model.Parking;
 import fr.nocturlab.model.Stationnement;
 import fr.nocturlab.repository.ParkingRepository;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -85,6 +88,49 @@ public class ParkingController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @GetMapping("/all")
+    /**
+     * Retourne à la fois les parkings en temps réel et les stationnements
+     */
+    public JSONArray getAllParkings()
+    {
+
+        JSONArray array = new JSONArray();
+
+        Iterable<Parking> parkings = parkingRepository.findAll();
+
+        Iterable<Stationnement> stationnements = stationnementRepository.findAll();
+
+
+        while(stationnements.iterator().hasNext()){
+
+            Stationnement s = stationnements.iterator().next();
+
+            JSONObject object = new JSONObject();
+
+            try {
+                object.put("parking_id", s.getId());
+                object.put("parking_x", s.getParking_x());
+                object.put("parking_y", s.getParking_y());
+                object.put("parking_libelle", s.getLibelle());
+                object.put("parking_nom", s.getNom());
+                object.put("parking_nb_places", s.getNb_places());
+                object.put("parking_nb_place_reel", "NULL");
+                object.put("parking_", s.getId());
+                object.put("parking_tarification", s.getTarification());
+                object.put("parking_type", s.getType());
+
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        return array;
     }
 
 
