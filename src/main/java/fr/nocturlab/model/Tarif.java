@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -13,30 +15,33 @@ import javax.persistence.Id;
 public class Tarif {
 
     @Id
-    @JsonProperty("tar_id")
+    @JsonProperty("pmt_id")
     private int id;
 
-    @JsonProperty("tar_periode_libelle")
-    private String periodeLibelle;
+    @JsonProperty("mtp_libelle")
+    private String libelle;
 
-    @JsonProperty("tar_duree_min")
-    private String dureeMin;
+    @JsonProperty("mentions")
+    private List<String> mentions;
 
-    @JsonProperty("tar_duree_max")
-    private String dureeMax;
+    @JsonProperty("horaires_tarification")
+    private List<Tarification> tarifications;
 
-    @JsonProperty("tar_parking_nom")
-    private String nomParking;
+    @Entity
+    @Getter
+    @Setter
+    private class Tarification {
+        @Id
+        @JsonProperty("pht_id")
+        private int id;
 
-    @JsonProperty("tar_parking_id")
-    private String idParking;
+        @JsonProperty("pht_nom")
+        private String nom;
 
-    @JsonProperty("tar_duree")
-    private String duree;
+        @JsonProperty("pht_libelle")
+        private String libelle;
 
-    @JsonProperty("tar_periode_date_fin")
-    private String periodeDateFin;
-
-    @JsonProperty("tar_periode_date_debut")
-    private String periodeDateDebut;
+        @JsonProperty("volume_horaire")
+        private Map<String, Double> volume;
+    }
 }
