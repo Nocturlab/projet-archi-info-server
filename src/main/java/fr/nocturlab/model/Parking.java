@@ -40,6 +40,10 @@ public class Parking {
     @JsonProperty("dp_place_disponible")
     private Integer placesDisponibles;
 
+    private String type;
+
+    private Integer tarification;
+
     public Integer getId() {
         return id;
     }
@@ -72,4 +76,19 @@ public class Parking {
         return placesDisponibles;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getTarification() {
+        return tarification;
+    }
+
+    public void setTarification(Integer tarification) {
+        this.tarification = tarification;
+    }
 }
