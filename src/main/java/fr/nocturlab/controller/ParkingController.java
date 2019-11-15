@@ -225,7 +225,7 @@ public class ParkingController {
 
         while(parkingsIterator.hasNext()){
             Parking parking = parkingsIterator.next();
-            if( distance(lat, lng, parking.getLat(), parking.getLng()) < dist){
+            if( distance(lat, lng, parking.getX(), parking.getY()) < dist){
                 res.add(parking);
             }
         }
