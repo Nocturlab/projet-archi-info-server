@@ -13,6 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties("dp_id")
+/**
+ * Parking en temps réel
+ */
 public class Parking {
 
     @Id
@@ -29,12 +32,63 @@ public class Parking {
     private Integer nombresPlaces;
 
     @JsonProperty("dp_x")
-    private Double y;
+    private Double x;
 
     @JsonProperty("dp_y")
-    private Double x;
+    private Double y;
 
     @JsonProperty("dp_place_disponible")
     private Integer placesDisponibles;
 
+    private String type;
+
+    private Integer tarification;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public Integer getNombresPlaces() {
+        return nombresPlaces;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
+    public Integer getPlacesDisponibles() {
+        return placesDisponibles;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getTarification() {
+        return tarification;
+    }
+
+    public void setTarification(Integer tarification) {
+        this.tarification = tarification;
+    }
 }
