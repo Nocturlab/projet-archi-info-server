@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -90,23 +90,28 @@ public class ParkingController {
         }
     }
 
-    @GetMapping("/all")
+
     /**
      * Retourne à la fois les parkings en temps réel et les stationnements
      */
-    public JSONArray getAllParkings()
+    @GetMapping("/all")
+    public String getAllParkings()
     {
-
         JSONArray array = new JSONArray();
 
         Iterable<Parking> parkings = parkingRepository.findAll();
 
         Iterable<Stationnement> stationnements = stationnementRepository.findAll();
 
+        System.out.println("getallparkings");
 
-        while(stationnements.iterator().hasNext()){
 
-            Stationnement s = stationnements.iterator().next();
+        Iterator<Parking> iteratorParking = parkings.iterator();
+        Iterator<Stationnement> iteratorStationnement = stationnements.iterator();
+
+        while(iteratorStationnement.hasNext()){
+
+            Stationnement s = iteratorStationnement.next();
 
             JSONObject object = new JSONObject();
 
@@ -126,11 +131,36 @@ public class ParkingController {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            System.out.println(object.toString());
+        }
 
+        while(iteratorParking.hasNext()){
+
+            Parking s = iteratorParking.next();
+
+            JSONObject object = new JSONObject();
+
+            try {
+                object.put("parking_id", s.getId());
+                object.put("parking_x", s.getX());
+                object.put("parking_y", s.getY());
+                object.put("parking_libelle", s.getLibelle());
+                object.put("parking_nom", s.getLibelle());
+                object.put("parking_nb_places", s.getNombresPlaces());
+                object.put("parking_nb_place_reel", s.getPlacesDisponibles());
+                object.put("parking_", s.getId());
+                object.put("parking_tarification", "NULL");
+                object.put("parking_type", "NULL");
+
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println(object.toString());
         }
 
 
-        return array;
+        return array.toString();
     }
 
 

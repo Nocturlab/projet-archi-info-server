@@ -52,47 +52,24 @@ public class Parking {
         return libelle;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
-    }
-
     public String getDate() {
         return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public Integer getNombresPlaces() {
         return nombresPlaces;
     }
 
-    public void setNombresPlaces(Integer nombresPlaces) {
-        this.nombresPlaces = nombresPlaces;
-    }
-
     public Double getX() {
         return x;
-    }
-
-    public void setX(Double x) {
-        this.x = x;
     }
 
     public Double getY() {
         return y;
     }
 
-    public void setY(Double y) {
-        this.y = y;
-    }
-
     public Integer getPlacesDisponibles() {
         return placesDisponibles;
     }
 
-    public void setPlacesDisponibles(Integer placesDisponibles) {
-        this.placesDisponibles = placesDisponibles;
-    }
 }
