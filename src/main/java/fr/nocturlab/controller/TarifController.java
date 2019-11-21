@@ -1,5 +1,6 @@
 package fr.nocturlab.controller;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nocturlab.model.Tarif;
 import fr.nocturlab.repository.TarifRepository;
@@ -27,6 +28,7 @@ public class TarifController {
     public TarifController() {
         restTemplate = new RestTemplate();
         mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
 
     @RequestMapping("/tarifs/findAll")
@@ -40,7 +42,7 @@ public class TarifController {
         ResponseEntity<String> response = restTemplate.getForEntity(URL, String.class);
 
         // Parse the json
-        String data = mapper.readTree(response.getBody()).at("/opendata/answer/data").toString();
+        String data = mapper.readTree(response.getBody()).at("/opendata/answer/data/0/donnees/grilletarif/parking_mode_tarification/row").toString();
         List<Tarif> tarifs = Arrays.asList(mapper.readValue(data, Tarif[].class));
 
         // Save in database
