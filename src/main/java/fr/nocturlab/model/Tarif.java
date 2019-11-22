@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -41,6 +43,7 @@ public class Tarif {
     private String libelle;
 
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Column(name = "mentions", nullable = false)
     @CollectionTable(name = "tarif_mentions", joinColumns = @JoinColumn(name = "tarif_id"))
     private Collection<String> mentions;
@@ -66,15 +69,15 @@ class TarifDeserializer extends StdDeserializer<Tarif> {
         int pmt_id = root.get("pmt_id").asInt();
         String mtp_libelle = root.get("mtp_libelle").asText();
 
-        List<String> mentions = new ArrayList<>();
+        Set<String> mentions = new HashSet<>();
         ArrayNode mentions_nodes = (ArrayNode) root.get("mentions").get("row");
         mentions_nodes.forEach(
             (node) -> mentions.add(node.get("mention_texte").asText())
         );
 
-        List<Tarification> tarifications = null;
+        Set<Tarification> tarifications = null;
         if (root.get("horaires_tarification") != null) {
-            tarifications = new ArrayList<>();
+            tarifications = new HashSet<>();
 
             ArrayNode tarifications_nodes = (ArrayNode) root.get("horaires_tarification").get("row");
             for (JsonNode tarif_node : tarifications_nodes) {
@@ -134,6 +137,7 @@ class Tarification {
 
     @JsonProperty("volume_horaire")
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Column(name = "volume")
     @CollectionTable(name = "tarification_volume", joinColumns = @JoinColumn(name = "tarification_id"))
     private Map<String, Double> volume;
